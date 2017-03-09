@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 
-public class Test1 {
+public class TestOperation {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -32,12 +32,10 @@ public class Test1 {
 				 "dogs"
 				);
 
-				Observable.just(words)
-				          .subscribe(System.out::println);
+				Observable.just(words).subscribe(System.out::println);
 				
 				//emit per item
-				Observable.fromIterable(words)
-		          .subscribe(System.out::println);
+				Observable.fromIterable(words).subscribe(System.out::println);
 				
 				//range and zip
 				Observable.range(1, 5).subscribe(System.out::println);

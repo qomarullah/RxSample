@@ -21,7 +21,8 @@ public class App
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
-        ScatterGather test=new ScatterGather();
+       
+        /* ScatterGather test=new ScatterGather();
         
         try {
         	//no reactive
@@ -30,6 +31,19 @@ public class App
 			test.testObservable();
 			
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+        
+        TestHttp ht=new TestHttp();
+        
+        
+        System.out.println(ht.getUrl());
+        
+      //not exit
+		try {
+			Thread.sleep(60_000);
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
