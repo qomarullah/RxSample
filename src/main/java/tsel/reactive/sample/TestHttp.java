@@ -30,9 +30,9 @@ public class TestHttp {
 	
 	public String getUrl (){
 		
-		Observable<Todo> todoObservable = Observable.create(emitter -> {
+		Observable<Todo> todoObservable1 = Observable.create(emitter -> {
 			 try {
-	                List<Todo> todos = getTodos();
+	                List<Todo> todos = getTodos(url2);
 	                for (Todo todo : todos) {
 	                       emitter.onNext(todo);
 	                }
@@ -42,31 +42,47 @@ public class TestHttp {
 	        }
 		});
 		
-		Disposable disposable = todoObservable.subscribe(t -> System.out.print("===>"+t.getTitle()));
-		disposable.dispose();
-		System.out.println("aaaaaaaaaaaaaaa");
+		Observable<Todo> todoObservable2 = Observable.create(emitter -> {
+			 try {
+	                List<Todo> todos = getTodos(url1);
+	                for (Todo todo : todos) {
+	                       emitter.onNext(todo);
+	                }
+	                emitter.onComplete();
+	        } catch (Exception e) {
+	                emitter.onError(e);
+	        }
+		});
 		
+		long a=System.currentTimeMillis();
+		Observable<Todo> clock = Observable.merge(todoObservable1,todoObservable2);
+		clock.subscribe(t -> System.out.print(t.getTitle()));
+		
+		System.out.println(System.currentTimeMillis()-a);
+		
+		a=System.currentTimeMillis();
+		todoObservable2.subscribe(t -> System.out.print("===>"+t.getTitle()));
+		todoObservable1.subscribe(t -> System.out.print("===>"+t.getTitle()));
+		System.out.println(System.currentTimeMillis()-a);
+		
+/*		Disposable disposable = 
+		disposable.dispose();
+*/		
 		return "ok";
 	}
 	
-	public List<Todo> getTodos() {
+	public List<Todo> getTodos(String url) {
 
         List<Todo> todos = new ArrayList();
 
-        for(int i=0;i<10;i++){
-        	
-        	
+        for(int i=0;i<1;i++){
         	Todo e=new Todo();
-        	String url=url1;
-        	if(i%2==0)url=url1;
-        	
         	String resp;
 			try {
 				resp = u.sendGet(url);
 				e.setId(i);
 	        	e.setTitle(resp);
-	        	
-			} catch (Exception e1) {
+	        } catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -78,4 +94,7 @@ public class TestHttp {
         return todos;
 	}
 
+	
+	
+	
 }
